@@ -1,0 +1,28 @@
+function interceptSubmit() {
+  jQuery(document).ajaxComplete(function(event, xhr, settings) {
+    if (settings.url.includes("wp-admin/admin-ajax.php") && settings.data.get('action') === 'elementor_pro_forms_send_form') {
+      if (xhr.responseJSON.success) {
+        console.log(settings.data.get('action'));
+        console.log(event);
+        console.log(xhr);
+        alert();
+      }
+    }
+  });
+}
+
+jQuery( document ).ready(function( $ ){
+  $( document ).on('submit_success', function( event, response ){
+
+    if(window.location.href.indexOf('free-play-way') != -1 || window.location.href.indexOf('vilna-gra') != -1) {
+    if(response.data.output) {
+      let info = JSON.parse(response.data.output);
+      if(info.sum != '') {
+      window.location = '/wfp/?email='+info.email+'&name='+info.name+'&phone='+info.phone+'&sum='+info.sum+'&product='+info.product;
+  		}
+    console.log(response.data.output);
+    }
+    }
+
+  });
+});
